@@ -1,6 +1,8 @@
 library(dbhelpers)
 library(dplyr)
 library(testthat)
+#devtools::document('../..')
+#devtools::load_all('../..')
 
 test_db <- tempfile()
 sqlite <- src_sqlite(test_db, create = TRUE)
@@ -16,16 +18,12 @@ initdb <- iris[1:10,]
 initdb$id <- as.integer(1:10)
 db_insert_into(con = sqlite$con, table = 'iris', values = initdb)
 
-db_insert_into(sqlite$con, 
-               sql('SELECT "Sepal.Length" FROM "iris"'),
-               values = data.frame(Sepal.Length = c(-1, -1)))
-
-#db <- sqlite
-#table <- 'iris'
-#values <- iris
-#by <- c('num', 'char')
-#id_colname <- 'id'
-#backend <- 'db_insert_into'
+db <- sqlite
+table <- 'iris'
+values <- iris
+by <- c('num', 'char')
+id_colname <- 'id'
+backend <- 'insert'
 
 mrg <- db_merge_into(db = sqlite, 
                      table = 'iris', 

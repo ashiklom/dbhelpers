@@ -6,7 +6,8 @@ Description: Additional functions to support working with SQL databases
 Depends: 
     R (>= 3.3.2)
 Imports:
-    dplyr
+    dplyr,
+    DBI
 Suggests:
     RPostgreSQL,
     data.table

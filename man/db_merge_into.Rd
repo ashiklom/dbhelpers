@@ -4,8 +4,7 @@
 \alias{db_merge_into}
 \title{Merge data into SQL database}
 \usage{
-db_merge_into(db, table, values, by, id_colname, backend = "db_insert_into",
-  ...)
+db_merge_into(db, table, values, by, id_colname, backend = "insert", ...)
 }
 \arguments{
 \item{db}{dplyr \code{src_*} object}
@@ -18,7 +17,7 @@ db_merge_into(db, table, values, by, id_colname, backend = "db_insert_into",
 
 \item{id_colname}{Column name for the database ID}
 
-\item{backend}{Which backend to use for copy operation. Default is "db_insert_into".}
+\item{backend}{Which backend to use for copy operation. Default is "insert".}
 
 \item{...}{Additional arguments to \code{backend_*} function}
 }
