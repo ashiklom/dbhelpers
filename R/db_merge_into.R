@@ -102,7 +102,7 @@ backend_insert <- function(db, table, values, id_colname,
     # Update table serial sequence counter
     if (isTRUE(update_seq)) {
         qry <- dplyr::build_sql('SELECT pg_catalog.setval(pg_get_serial_sequence',
-                                '(', dplyr::ident(table), ',', dplyr::ident(id_colname), '),',
+                                '(', dplyr::escape(table), ',', dplyr::escape(id_colname), '),',
                                 '(SELECT MAX(', dplyr::ident(id_colname), ') FROM ', ident(table), ') + 1)')
         r <- DBI::dbGetQuery(db$con, qry)
     }
