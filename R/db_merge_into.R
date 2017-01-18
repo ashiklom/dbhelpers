@@ -85,7 +85,7 @@ backend_insert <- function(db, table, values, id_colname,
         } else {
             i <- unlist(last_id, use.names = FALSE)
         }
-        values[[id_colname]] <- as.integer(i + (1:nrow(values)))
+        values[[id_colname]] <- i + seq_len(nrow(values))
     }
     input_cols <- colnames(values)
     escaped_values <- lapply(values, escape, collapse = NULL, parens = FALSE, con = db$con)
