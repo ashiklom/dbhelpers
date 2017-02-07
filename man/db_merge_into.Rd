@@ -4,7 +4,8 @@
 \alias{db_merge_into}
 \title{Merge data into SQL database}
 \usage{
-db_merge_into(db, table, values, by, id_colname, backend = "insert", ...)
+db_merge_into(db, table, values, by, id_colname, backend = "insert",
+  return = TRUE, ...)
 }
 \arguments{
 \item{db}{dplyr \code{src_*} object}
@@ -37,4 +38,3 @@ merge_with_sql(input, tablename, key = 'code')
 \author{
 Alexey Shiklomanov <ashiklom@bu.edu>
 }
-
