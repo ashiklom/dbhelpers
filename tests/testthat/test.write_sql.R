@@ -27,7 +27,7 @@ backend <- 'insert'
 
 mrg <- db_merge_into(db = sqlite, 
                      table = 'iris', 
-                     values = iris,
+                     values = iris[1:50,],
                      by = c('num', 'char'),
                      id_colname = 'id')
 
@@ -35,7 +35,21 @@ mrg2 <- db_merge_into(db = sqlite,
                       table = 'iris',
                       values = iris,
                       by = c('num', 'char'),
+                      id_colname = 'id',
+                      backend = 'sqlite_import')
+
+mrg3 <- db_merge_into(db = sqlite,
+                      table = 'iris',
+                      values = iris,
+                      by = c('num', 'char'),
                       id_colname = 'id')
+
+mrg4 <- db_merge_into(db = sqlite,
+                      table = 'iris',
+                      values = iris,
+                      by = c('num', 'char'),
+                      id_colname = 'id',
+                      backend = 'sqlite_import')
 
 out <- tbl(sqlite, 'iris') %>% collect() 
 

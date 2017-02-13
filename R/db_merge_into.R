@@ -20,7 +20,7 @@
 #' merge_with_sql(input, tablename, key = 'code')
 db_merge_into <- function(db, table, values, by, id_colname,
                           backend = 'insert', return = TRUE, ...) {
-    supported_backends <- c('insert', 'psql_copy', 'pg_bulkload')
+    supported_backends <- c('insert', 'psql_copy', 'pg_bulkload', 'sqlite_import')
     if (!backend %in% supported_backends) {
         stop('Backend "', backend, '" not supported. ',
              'Please select one of the following: ', 
@@ -62,6 +62,9 @@ db_merge_into <- function(db, table, values, by, id_colname,
         } else if (backend == 'pg_bulkload') {
             data.table::setDT(input_sub)
             insert <- backend_pg_bulkload(db, table, input_sub, id_colname, ...)
+        } else if (backend == 'sqlite_import') {
+            data.table::setDT(input_sub)
+            insert <- backend_sqlite_import(db, table, input_sub, id_colname, ...)
         }
         message('Added ', n_added, ' rows to table ', table)
     } else {

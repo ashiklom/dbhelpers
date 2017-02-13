@@ -25,19 +25,16 @@ backend_insert <- function(db, table, values, id_colname,
     values_matrix <- matrix(unlist(escaped_values, use.names = FALSE), nrow = nrow(values))
     rows <- apply(values_matrix, 1, paste0, collapse = ', ')
     input_values <- paste0('(', rows, ')', collapse = '\n, ')
-    insert_query <- build_sql('INSERT INTO ', ident(table),
-                              ' (', ident(input_cols), ') ',
-                              ' VALUES ', sql(input_values))
+    insert_query <- dplyr::build_sql(dplyr::sql('INSERT INTO '), dplyr::ident(table),
+                                     dplyr::sql(' ('), dplyr::ident(input_cols), dplyr::sql(') '),
+                                     dplyr::sql(' VALUES '), dplyr::sql(input_values))
 
     message('Inserting ', nrow(values), ' values into table "', table, '"...')
     r <- DBI::dbGetQuery(db$con, insert_query)
 
     # Update table serial sequence counter
     if (isTRUE(update_seq)) {
-        qry <- dplyr::build_sql('SELECT pg_catalog.setval(pg_get_serial_sequence',
-                                '(', dplyr::escape(table), ',', dplyr::escape(id_colname), '),',
-                                '(SELECT MAX(', dplyr::ident(id_colname), ') FROM ', ident(table), ') + 1)')
-        r <- DBI::dbGetQuery(db$con, qry)
+        r <- update_psql_counter(db = db, table = table, id_colname = id_colname)
     }
 
     return(TRUE)
