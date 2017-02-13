@@ -2,7 +2,7 @@ library(dbhelpers)
 library(dplyr)
 library(testthat)
 #devtools::document('../..')
-#devtools::load_all('../..')
+devtools::load_all('.')
 
 test_db <- tempfile()
 sqlite <- src_sqlite(test_db, create = TRUE)
@@ -31,12 +31,21 @@ mrg <- db_merge_into(db = sqlite,
                      by = c('num', 'char'),
                      id_colname = 'id')
 
+#debugonce(dbhelpers:::backend_sqlite_import)
 mrg2 <- db_merge_into(db = sqlite,
                       table = 'iris',
                       values = iris,
                       by = c('num', 'char'),
                       id_colname = 'id',
                       backend = 'sqlite_import')
+
+out2 <- tbl(sqlite, 'iris') %>% collect()
+
+test_that('SQLite import adds rows to database',
+          {
+                    expect_equal(nrow(out2), nrow(mrg2))
+          })
+
 
 mrg3 <- db_merge_into(db = sqlite,
                       table = 'iris',
@@ -55,11 +64,11 @@ out <- tbl(sqlite, 'iris') %>% collect()
 
 test_that('Extra rows have not been added', 
           {
-              expect_equal(count(out)$n, nrow(iris))
+                    expect_equal(count(out)$n, nrow(iris))
           })
 
 test_that('Merge output has id column',
           {
-              expect_true('id' %in% colnames(out))
+                    expect_true('id' %in% colnames(out))
           })
 
