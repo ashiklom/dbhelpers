@@ -5,7 +5,7 @@
 #' @param table Name of table, as character
 #' @param values \code{data.frame}
 #' @param by Character vector of column names to use for the merge
-#' @param id_colname Column name for the database ID
+#' @param id_colname Column name for the database ID. If NULL, ignore id column.
 #' @param backend Which backend to use for copy operation. Default is "insert".
 #' @param ... Additional arguments to \code{backend_*} function
 #' @export
@@ -18,7 +18,7 @@
 #' key <- 'code'
 #' dbname <- 'leaf_spectra'
 #' merge_with_sql(input, tablename, key = 'code')
-db_merge_into <- function(db, table, values, by, id_colname,
+db_merge_into <- function(db, table, values, by, id_colname = NULL,
                           backend = 'insert', return = TRUE, ...) {
     supported_backends <- c('insert', 'psql_copy', 'pg_bulkload', 'sqlite_import')
     if (!backend %in% supported_backends) {

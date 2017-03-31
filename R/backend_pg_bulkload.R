@@ -1,6 +1,9 @@
 backend_pg_bulkload <- function(db, table, values,
-                                id_colname = 'id', add_id = TRUE, ...) {
+                                id_colname = NULL, add_id = TRUE, ...) {
     stopifnot(inherits(db, 'src_postgres'))
+    if (is.null(id_colname)) {
+        add_id = FALSE
+    }
     if (add_id) {
         values <- add_id(db = db, table = table, values = values, 
                          id_colname = id_colname)

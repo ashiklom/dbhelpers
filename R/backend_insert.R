@@ -1,4 +1,4 @@
-backend_insert <- function(db, table, values, id_colname, 
+backend_insert <- function(db, table, values, id_colname = NULL, 
                                    add_id = TRUE, update_seq = NULL) {
 
     if (is.null(update_seq) && inherits(db, 'src_postgres')) {
@@ -7,6 +7,11 @@ backend_insert <- function(db, table, values, id_colname,
 
     sql_table <- dplyr::tbl(db, table)
     sql_cols <- dplyr::tbl_vars(sql_table)
+
+    if (is.null(id_colname)) {
+        add_id <- FALSE
+    }
+    
     if (isTRUE(add_id)) {
         last_id <- dplyr::tbl(db, dplyr::build_sql('SELECT', dplyr::ident(id_colname), 
                                                    'FROM', dplyr::ident(table),

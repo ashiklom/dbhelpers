@@ -4,7 +4,7 @@
 \alias{db_merge_into}
 \title{Merge data into SQL database}
 \usage{
-db_merge_into(db, table, values, by, id_colname, backend = "insert",
+db_merge_into(db, table, values, by, id_colname = NULL, backend = "insert",
   return = TRUE, ...)
 }
 \arguments{
@@ -16,7 +16,7 @@ db_merge_into(db, table, values, by, id_colname, backend = "insert",
 
 \item{by}{Character vector of column names to use for the merge}
 
-\item{id_colname}{Column name for the database ID}
+\item{id_colname}{Column name for the database ID. If NULL, ignore id column.}
 
 \item{backend}{Which backend to use for copy operation. Default is "insert".}
 

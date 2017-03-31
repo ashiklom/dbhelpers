@@ -1,5 +1,8 @@
-backend_sqlite_import <- function(db, table, values, id_colname, add_id = TRUE) {
+backend_sqlite_import <- function(db, table, values, id_colname = NULL, add_id = TRUE) {
     stopifnot(inherits(db, 'src_sqlite'))
+    if (is.null(id_colname)) {
+        add_id = FALSE
+    }
     if (add_id) {
         values <- add_id(db = db, table = table, values = values, 
                          id_colname = id_colname)
