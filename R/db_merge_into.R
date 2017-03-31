@@ -71,7 +71,11 @@ db_merge_into <- function(db, table, values, by, id_colname = NULL,
         message('All rows in input already in table ', table)
     }
     if (isTRUE(return)) {
-        new_sql_keys <- dplyr::collect(dplyr::distinct_(sql_table, .dots = c(id_colname, by)))
+        dotcols <- by
+        if (!is.null(id_colname)) {
+            dotcols = c(id_colname, dotcols)
+        }
+        new_sql_keys <- dplyr::collect(dplyr::distinct_(sql_table, .dots = dotcols))
         if (data.table::is.data.table(values)) {
             data.table::setDT(new_sql_keys)
         }
