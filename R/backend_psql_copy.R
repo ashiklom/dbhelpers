@@ -1,6 +1,6 @@
 backend_psql_copy <- function(db, table, values,
                               id_colname = 'id', add_id = TRUE, ...) {
-    stopifnot(inherits(db, 'src_postgres'))
+    stopifnot(inherits(db, 'src_sql'))
     if (is.null(id_colname)) {
         add_id = FALSE
     }

@@ -7,6 +7,11 @@ devtools::load_all('.')
 test_db <- tempfile()
 sqlite <- src_sqlite(test_db, create = TRUE)
 
+test_that('Get path successfully retrieves path', 
+          {
+              expect_equal(getPath(sqlite), test_db)
+          })
+
 data(iris)
 
 iris$num <- rep(1:11, length.out = nrow(iris))

@@ -16,13 +16,13 @@ db_update_where <- function(db, table, criteria, values) {
     where_list <- lapply(criteria, function(x) 
                          dplyr::sql_vector(c(dplyr::ident(x[[1]]),
                                              dplyr::sql(x[[2]]),
-                                             dplyr::escape(x[[3]])),
+                                             dbplyr::escape(x[[3]])),
                                            parens = FALSE))
     where_query <- dplyr::sql_vector(where_list, parens = FALSE, collapse = sql(' AND '))
-    query <- dplyr::build_sql(
+    query <- dbplyr::build_sql(
         dplyr::sql('UPDATE '), dplyr::ident(table),
         dplyr::sql(' SET ('), dplyr::ident(names(values)), 
-        dplyr::sql(') = ('), dplyr::escape(unlist(values, use.names = FALSE)),
+        dplyr::sql(') = ('), dbplyr::escape(unlist(values, use.names = FALSE)),
         dplyr::sql(') WHERE '), where_query)
     runquery <- DBI::dbExecute(db$con, query) 
 }

@@ -1,5 +1,5 @@
 backend_sqlite_import <- function(db, table, values, id_colname = NULL, add_id = TRUE) {
-    stopifnot(inherits(db, 'src_sqlite'))
+    stopifnot(inherits(db, 'src_sql'))
     if (is.null(id_colname)) {
         add_id = FALSE
     }
@@ -16,7 +16,7 @@ backend_sqlite_import <- function(db, table, values, id_colname = NULL, add_id =
     import_filename <- tempfile(pattern = 'sqlite_statement_', tmpdir = tmp_dir, fileext = '.sql')
     write(x = import_statement, file = import_filename, ncolumns = 1, append = FALSE)
     message('Running sqlite3 import command')
-    import_exec <- system2('sqlite3', c(db$path), stdin = import_filename)
+    import_exec <- system2('sqlite3', getPath(db), stdin = import_filename)
     file.remove(tmp_fname)
     if (import_exec != 0) {
         stop('Error in sqlite import operation')

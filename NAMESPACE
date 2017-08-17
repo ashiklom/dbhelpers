@@ -2,3 +2,4 @@
 
 export(db_merge_into)
 export(db_update_where)
+export(getPath)
